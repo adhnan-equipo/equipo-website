@@ -1,6 +1,7 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import { ReasonToChoose } from '@/types/database';
 import AnimatedSection from '../ui/AnimatedSection';
 import StaggeredList from '../ui/StaggeredList';
@@ -74,18 +75,14 @@ const ReasonsSection: React.FC<ReasonsSectionProps> = ({ reasons }) => {
 
         {/* Call to Action */}
         <AnimatedSection delay={0.4} className="mt-16 text-center">
-          <motion.div
-            className="inline-block"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
+          <div className="inline-block transform transition-transform hover:scale-105 active:scale-95">
             <a
               href="#contact"
               className="inline-block bg-primary-500 text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary-600 transition-colors shadow-md"
             >
               Talk to Our Experts
             </a>
-          </motion.div>
+          </div>
         </AnimatedSection>
       </div>
     </section>
