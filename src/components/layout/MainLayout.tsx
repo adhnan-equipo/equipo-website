@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import FirebaseConnectionStatus from '@/components/ui/FirebaseConnectionStatus';
 import { MenuItem, SubMenuItem, SiteSettings, ContactInfo } from '@/types/database';
 
 interface MainLayoutProps {
@@ -57,6 +58,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
         siteSettings={siteSettings} 
         mainMenu={mainMenu} 
       />
+      <FirebaseConnectionStatus />
     </>
   );
 };

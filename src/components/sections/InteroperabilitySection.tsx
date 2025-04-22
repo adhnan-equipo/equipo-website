@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { 
   InteroperabilityCenter, 
   InteroperabilityConnection,
@@ -25,6 +25,25 @@ const InteroperabilitySection: React.FC<InteroperabilitySectionProps> = ({
   const [activeConnection, setActiveConnection] = useState<InteroperabilityConnection | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const centerControls = useAnimation();
+  const lineControls = useAnimation();
+
+  useEffect(() => {
+    // Animate center hub on mount
+    centerControls.start({
+      scale: [0, 1.1, 1],
+      opacity: [0, 1],
+      transition: { duration: 0.8, type: 'spring', stiffness: 100 }
+    });
+
+    // Animate connecting lines
+    if (settings.animation_enabled) {
+      lineControls.start({
+        opacity: [0, 1],
+        transition: { duration: 0.5, delay: 0.4 }
+      });
+    }
+  }, [centerControls, lineControls, settings.animation_enabled]);
 
   // Calculate positions for each connection around the center
   const calculatePosition = (angle: number, distance: number, containerSize: number) => {
@@ -88,8 +107,7 @@ const InteroperabilitySection: React.FC<InteroperabilitySectionProps> = ({
             <motion.div 
               className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 md:w-40 md:h-40 bg-white rounded-full flex items-center justify-center z-10 shadow-lg"
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
+              animate={centerControls}
             >
               <div className="text-center p-2">
                 <div className="relative w-16 h-16 md:w-20 md:h-20 mx-auto mb-1">
@@ -112,9 +130,10 @@ const InteroperabilitySection: React.FC<InteroperabilitySectionProps> = ({
               className="absolute inset-0 w-full h-full"
               viewBox="0 0 600 600"
               xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
             >
               <g transform="translate(300, 300)">
-                {connections.map((connection) => {
+                {connections.map((connection, index) => {
                   const radians = (connection.angle * Math.PI) / 180;
                   const distance = (connection.distance / 100) * 240;
                   const endX = distance * Math.cos(radians);
@@ -131,17 +150,20 @@ const InteroperabilitySection: React.FC<InteroperabilitySectionProps> = ({
                       strokeWidth="2"
                       strokeDasharray={settings.animation_enabled ? "5,5" : "0"}
                       initial={{ opacity: 0 }}
-                      animate={{ 
-                        opacity: 1,
-                        strokeDashoffset: settings.animation_enabled ? [0, -20] : 0 
+                      animate={lineControls}
+                      custom={index}
+                      transition={{
+                        strokeDashoffset: {
+                          repeat: settings.animation_enabled ? Infinity : 0,
+                          repeatType: "loop",
+                          duration: 12,
+                          ease: "linear"
+                        },
+                        delay: 0.2 + (index * 0.1)
                       }}
-                      transition={{ 
-                        duration: 0.5, 
-                        delay: 0.2 + (connections.indexOf(connection) * 0.1),
-                        repeat: settings.animation_enabled ? Infinity : 0,
-                        repeatType: "loop",
-                        ease: "linear"
-                      }}
+                      {...(settings.animation_enabled && {
+                        strokeDashoffset: [0, -20]
+                      })}
                     />
                   );
                 })}
@@ -164,7 +186,7 @@ const InteroperabilitySection: React.FC<InteroperabilitySectionProps> = ({
                   style={position}
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
+                  transition={{ duration: 0.5, delay: 0.5 + (index * 0.1) }}
                   whileHover={{ scale: 1.1 }}
                   onHoverStart={() => settings.highlight_on_hover && setHoveredConnection(connection.id)}
                   onHoverEnd={() => settings.highlight_on_hover && setHoveredConnection(null)}

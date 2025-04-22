@@ -1,3 +1,6 @@
+// src/components/ui/Button.tsx
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -18,7 +21,7 @@ interface ButtonProps {
   ariaLabel?: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
   href,
