@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'; // Make sure this import is present
 import { EfficiencyHeading, EfficiencyBlock } from '@/types/database';
 import AnimatedSection from '../ui/AnimatedSection';
 import Button from '../ui/Button';
@@ -23,11 +23,24 @@ const EfficiencySection: React.FC<EfficiencySectionProps> = ({ heading, blocks }
   const bottomRightBlock = getBlockByPosition('bottom-right');
 
   return (
-    <section className="py-20 bg-white">
-      <div className="container mx-auto px-4">
+    <section className="relative py-20">
+      {/* Background image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/img_group_15.png"
+          alt="Background Wave"
+          fill
+          className="object-cover opacity-70"
+        />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <AnimatedSection>
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-darkBlue mb-3">
+            <p className="text-lg font-medium text-primary-500 mb-2">
+              Use Cases
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold text-darkBlue mb-3">
               {heading.title}
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">

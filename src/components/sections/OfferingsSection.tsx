@@ -23,16 +23,64 @@ const OfferingsSection: React.FC<OfferingsSectionProps> = ({ categories, items }
     : items;
 
   return (
-    <section className="py-20 bg-lightGray">
-      <div className="container mx-auto px-4">
+    <section className="relative py-20">
+      {/* Background image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/img_group_46.png"
+          alt="Background Grid"
+          fill
+          className="object-cover"
+        />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <AnimatedSection>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-darkBlue mb-3">
-              Our Offerings
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Explore the future of healthcare with our advanced technology solutions
-            </p>
+          <div className="flex flex-col md:flex-row items-start justify-between gap-12 mb-12">
+            <div className="w-full md:w-1/3">
+              <h2 className="text-4xl md:text-5xl font-bold text-secondary-500 mb-4">
+                OUR<br />OFFERINGS
+              </h2>
+              <p className="text-xl text-white leading-relaxed">
+                Explore the Future of Healthcare<br /> 
+                with our Advanced Technology<br />
+                Solutions
+              </p>
+            </div>
+
+            <div className="w-full md:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Center Logo Card */}
+              <div className="bg-white rounded-lg p-8 flex items-center justify-center mb-6 h-40">
+                <Image
+                  src="/images/img_blue_4.png"
+                  alt="Equipo Logo"
+                  width={180}
+                  height={80}
+                  className="h-20 object-contain"
+                />
+              </div>
+
+              {/* Offering Cards */}
+              {filteredItems.slice(0, 3).map((item) => (
+                <motion.div
+                  key={item.id}
+                  className="bg-secondary-500 rounded-lg p-6 flex flex-col items-start justify-center h-40"
+                  whileHover={{ scale: 1.03 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                >
+                  <p className="text-base font-semibold text-darkBlue">
+                    {item.title}
+                  </p>
+                  <div className="mt-auto self-end">
+                    <Link href={item.link_url || "#"}>
+                      <svg className="h-6 w-6 text-darkBlue" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </AnimatedSection>
 
@@ -75,9 +123,10 @@ const OfferingsSection: React.FC<OfferingsSectionProps> = ({ categories, items }
           containerClassName="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {filteredItems.map((item) => (
-            <div
+            <motion.div
               key={item.id}
               className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+              whileHover={{ y: -5 }}
             >
               <div className="relative h-48">
                 <Image
@@ -119,7 +168,7 @@ const OfferingsSection: React.FC<OfferingsSectionProps> = ({ categories, items }
                   </Link>
                 )}
               </div>
-            </div>
+            </motion.div>
           ))}
         </StaggeredList>
       </div>

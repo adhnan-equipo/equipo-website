@@ -46,20 +46,28 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   }, [siteSettings.google_analytics_id]);
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col font-['Poppins']">
       <Header 
         mainMenu={mainMenu} 
         subMenus={subMenus} 
         siteSettings={siteSettings} 
       />
-      <main>{children}</main>
+      
+      <main className="flex-grow">
+        {children}
+      </main>
+      
       <Footer 
         contactInfo={contactInfo} 
         siteSettings={siteSettings} 
         mainMenu={mainMenu} 
       />
-      <FirebaseConnectionStatus />
-    </>
+      
+      {/* Show connection status in development only */}
+      {process.env.NODE_ENV === 'development' && (
+        <FirebaseConnectionStatus />
+      )}
+    </div>
   );
 };
 

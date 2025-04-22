@@ -86,11 +86,21 @@ const InteroperabilitySection: React.FC<InteroperabilitySectionProps> = ({
   };
 
   return (
-    <section className="py-20 bg-darkBlue text-white overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section className="relative py-20">
+      {/* Background image */}
+      <div className="absolute inset-0 z-0 bg-darkBlue">
+        <Image
+          src="/images/img_group_45.png"
+          alt="Background Pattern"
+          fill
+          className="object-cover opacity-70"
+        />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10 text-white">
         <AnimatedSection className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">
-            {center.title}
+          <h2 className="text-4xl md:text-5xl font-bold text-secondary-500 mb-3">
+            Interoperability<br />Solutions
           </h2>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             {center.subtitle}
@@ -215,12 +225,42 @@ const InteroperabilitySection: React.FC<InteroperabilitySectionProps> = ({
                           />
                         </div>
                       ) : null}
-                      <p className="text-xs font-semibold line-clamp-1">{connection.title}</p>
+                      <p className="text-xs font-semibold line-clamp-1 text-white">{connection.title}</p>
                     </div>
                   </div>
                 </motion.div>
               );
             })}
+          </div>
+        </div>
+
+        {/* Tech Stack */}
+        <div className="text-center mt-20">
+          <h3 className="text-3xl md:text-4xl font-bold text-secondary-500 mb-12">
+            Our Tech Stack
+          </h3>
+
+          <div className="flex flex-wrap justify-center items-center gap-4 mt-8">
+            {Array(12).fill(0).map((_, index) => (
+              <motion.div
+                key={index}
+                className="bg-white rounded-full p-2 shadow-md"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * index, duration: 0.3 }}
+              >
+                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center bg-white">
+                  <Image
+                    src={`/logo-placeholder-${(index % 5) + 1}.svg`}
+                    alt={`Technology ${index + 1}`}
+                    width={40}
+                    height={40}
+                    className="object-contain"
+                  />
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>

@@ -6,6 +6,9 @@ import ReasonsSection from '@/components/sections/ReasonsSection';
 import InteroperabilitySection from '@/components/sections/InteroperabilitySection';
 import TechStackSection from '@/components/sections/TechStackSection';
 import EfficiencySection from '@/components/sections/EfficiencySection';
+import VideoSection from '@/components/sections/VideoSection';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import {
   getHeaderSlides,
   getHeaderSettings,
@@ -75,6 +78,16 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+// Helper to prepare partner logos
+const preparePartnerLogos = () => {
+  return [
+    { name: 'Partner 1', src: '/images/img_logo.svg' },
+    { name: 'Partner 2', src: '/images/img_logo_light_blue_A700.svg' },
+    { name: 'Partner 3', src: '/images/img_logo_deep_purple_A200.svg' },
+    { name: 'Partner 4', src: '/images/img_logo_yellow_900.svg' },
+  ];
+};
+
 export default async function Home() {
   console.log('🏠 Rendering homepage...');
   const startTime = performance.now();
@@ -143,43 +156,65 @@ export default async function Home() {
     // Log total data loading time
     console.log(`✨ Total data loading completed in ${(performance.now() - startTime).toFixed(2)}ms`);
 
+    // Prepare partner logos
+    const partnerLogos = preparePartnerLogos();
+
     return (
-      <MainLayout
-        mainMenu={mainMenu}
-        subMenus={subMenus}
-        siteSettings={siteSettings}
-        contactInfo={contactInfo}
-      >
-        <HeroSection
-          slides={headerSlides}
-          settings={headerSettings}
+      <>
+        {/* Header component */}
+        <Header 
+          mainMenu={mainMenu}
+          subMenus={subMenus}
+          siteSettings={siteSettings}
         />
         
-        <OfferingsSection
-          categories={offeringCategories}
-          items={offeringItems}
-        />
+        {/* Main content */}
+        <main>
+          <HeroSection
+            slides={headerSlides}
+            settings={headerSettings}
+            partnerLogos={partnerLogos}
+          />
+          
+          <OfferingsSection
+            categories={offeringCategories}
+            items={offeringItems}
+          />
+          
+          <ReasonsSection
+            reasons={reasonsToChoose}
+          />
+          
+          <InteroperabilitySection
+            center={interoperabilityCenter}
+            connections={interoperabilityConnections}
+            settings={interoperabilitySettings}
+          />
+          
+          <TechStackSection
+            categories={techCategories}
+            technologies={technologies}
+          />
+          
+          {/* Video Section */}
+          <VideoSection 
+            videoThumbnail="/images/img_group_176.png"
+            videoUrl="https://www.youtube.com/embed/dQw4w9WgXcQ"
+          />
+          
+          <EfficiencySection
+            heading={efficiencyHeading}
+            blocks={efficiencyBlocks}
+          />
+        </main>
         
-        <ReasonsSection
-          reasons={reasonsToChoose}
+        {/* Footer */}
+        <Footer 
+          contactInfo={contactInfo} 
+          siteSettings={siteSettings} 
+          mainMenu={mainMenu}
         />
-        
-        <InteroperabilitySection
-          center={interoperabilityCenter}
-          connections={interoperabilityConnections}
-          settings={interoperabilitySettings}
-        />
-        
-        <TechStackSection
-          categories={techCategories}
-          technologies={technologies}
-        />
-        
-        <EfficiencySection
-          heading={efficiencyHeading}
-          blocks={efficiencyBlocks}
-        />
-      </MainLayout>
+      </>
     );
   } catch (error) {
     console.error('❌ Critical error rendering homepage:', error);
