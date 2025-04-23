@@ -22,6 +22,12 @@ import {
 
 const BASE_PATH = 'equipe_website';
 
+// Helper function to safely convert Firebase data
+function convertFirebaseData<T>(data: any): T[] {
+  if (!data || typeof data !== 'object') return [];
+  return Object.values(data) as T[];
+}
+
 // Header Slider
 export async function getHeaderSlides(): Promise<HeaderSlide[]> {
   const slidesRef = ref(db, `${BASE_PATH}/header_slider/slides`);
@@ -29,9 +35,10 @@ export async function getHeaderSlides(): Promise<HeaderSlide[]> {
   
   if (snapshot.exists()) {
     const data = snapshot.val();
-    return Object.values(data)
-      .sort((a: any, b: any) => a.display_order - b.display_order)
-      .filter((slide: any) => slide.active);
+    const slides = convertFirebaseData<HeaderSlide>(data);
+    return slides
+      .sort((a, b) => a.display_order - b.display_order)
+      .filter((slide) => slide.active);
   }
   
   return [];
@@ -42,7 +49,7 @@ export async function getHeaderSettings(): Promise<HeaderSettings> {
   const snapshot = await get(settingsRef);
   
   if (snapshot.exists()) {
-    return snapshot.val();
+    return snapshot.val() as HeaderSettings;
   }
   
   return {
@@ -59,8 +66,8 @@ export async function getOfferingCategories(): Promise<OfferingCategory[]> {
   
   if (snapshot.exists()) {
     const data = snapshot.val();
-    return Object.values(data)
-      .sort((a: any, b: any) => a.display_order - b.display_order);
+    const categories = convertFirebaseData<OfferingCategory>(data);
+    return categories.sort((a, b) => a.display_order - b.display_order);
   }
   
   return [];
@@ -84,8 +91,8 @@ export async function getOfferingItems(categoryId?: string): Promise<OfferingIte
   
   if (snapshot.exists()) {
     const data = snapshot.val();
-    return Object.values(data)
-      .sort((a: any, b: any) => a.display_order - b.display_order);
+    const items = convertFirebaseData<OfferingItem>(data);
+    return items.sort((a, b) => a.display_order - b.display_order);
   }
   
   return [];
@@ -97,9 +104,10 @@ export async function getFeaturedOfferingItems(): Promise<OfferingItem[]> {
   
   if (snapshot.exists()) {
     const data = snapshot.val();
-    return Object.values(data)
-      .filter((item: any) => item.featured)
-      .sort((a: any, b: any) => a.display_order - b.display_order);
+    const items = convertFirebaseData<OfferingItem>(data);
+    return items
+      .filter((item) => item.featured)
+      .sort((a, b) => a.display_order - b.display_order);
   }
   
   return [];
@@ -112,8 +120,8 @@ export async function getReasonsToChoose(): Promise<ReasonToChoose[]> {
   
   if (snapshot.exists()) {
     const data = snapshot.val();
-    return Object.values(data)
-      .sort((a: any, b: any) => a.display_order - b.display_order);
+    const reasons = convertFirebaseData<ReasonToChoose>(data);
+    return reasons.sort((a, b) => a.display_order - b.display_order);
   }
   
   return [];
@@ -125,7 +133,7 @@ export async function getInteroperabilityCenter(): Promise<InteroperabilityCente
   const snapshot = await get(centerRef);
   
   if (snapshot.exists()) {
-    return snapshot.val();
+    return snapshot.val() as InteroperabilityCenter;
   }
   
   return {
@@ -141,8 +149,8 @@ export async function getInteroperabilityConnections(): Promise<Interoperability
   
   if (snapshot.exists()) {
     const data = snapshot.val();
-    return Object.values(data)
-      .filter((connection: any) => connection.active);
+    const connections = convertFirebaseData<InteroperabilityConnection>(data);
+    return connections.filter((connection) => connection.active);
   }
   
   return [];
@@ -153,7 +161,7 @@ export async function getInteroperabilitySettings(): Promise<InteroperabilitySet
   const snapshot = await get(settingsRef);
   
   if (snapshot.exists()) {
-    return snapshot.val();
+    return snapshot.val() as InteroperabilitySettings;
   }
   
   return {
@@ -169,8 +177,8 @@ export async function getTechCategories(): Promise<TechCategory[]> {
   
   if (snapshot.exists()) {
     const data = snapshot.val();
-    return Object.values(data)
-      .sort((a: any, b: any) => a.display_order - b.display_order);
+    const categories = convertFirebaseData<TechCategory>(data);
+    return categories.sort((a, b) => a.display_order - b.display_order);
   }
   
   return [];
@@ -194,8 +202,8 @@ export async function getTechnologies(categoryId?: string): Promise<Technology[]
   
   if (snapshot.exists()) {
     const data = snapshot.val();
-    return Object.values(data)
-      .sort((a: any, b: any) => a.display_order - b.display_order);
+    const technologies = convertFirebaseData<Technology>(data);
+    return technologies.sort((a, b) => a.display_order - b.display_order);
   }
   
   return [];
@@ -207,7 +215,7 @@ export async function getEfficiencyHeading(): Promise<EfficiencyHeading> {
   const snapshot = await get(headingRef);
   
   if (snapshot.exists()) {
-    return snapshot.val();
+    return snapshot.val() as EfficiencyHeading;
   }
   
   return {
@@ -222,8 +230,8 @@ export async function getEfficiencyBlocks(): Promise<EfficiencyBlock[]> {
   
   if (snapshot.exists()) {
     const data = snapshot.val();
-    return Object.values(data)
-      .filter((block: any) => block.active);
+    const blocks = convertFirebaseData<EfficiencyBlock>(data);
+    return blocks.filter((block) => block.active);
   }
   
   return [];
@@ -236,8 +244,8 @@ export async function getMainMenu(): Promise<MenuItem[]> {
   
   if (snapshot.exists()) {
     const data = snapshot.val();
-    return Object.values(data)
-      .sort((a: any, b: any) => a.display_order - b.display_order);
+    const menuItems = convertFirebaseData<MenuItem>(data);
+    return menuItems.sort((a, b) => a.display_order - b.display_order);
   }
   
   return [];
@@ -255,8 +263,8 @@ export async function getSubMenu(parentId: string): Promise<SubMenuItem[]> {
   
   if (snapshot.exists()) {
     const data = snapshot.val();
-    return Object.values(data)
-      .sort((a: any, b: any) => a.display_order - b.display_order);
+    const subMenuItems = convertFirebaseData<SubMenuItem>(data);
+    return subMenuItems.sort((a, b) => a.display_order - b.display_order);
   }
   
   return [];
@@ -268,7 +276,7 @@ export async function getContactInfo(): Promise<ContactInfo> {
   const snapshot = await get(contactRef);
   
   if (snapshot.exists()) {
-    return snapshot.val();
+    return snapshot.val() as ContactInfo;
   }
   
   return {
@@ -291,7 +299,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   const snapshot = await get(settingsRef);
   
   if (snapshot.exists()) {
-    return snapshot.val();
+    return snapshot.val() as SiteSettings;
   }
   
   return {

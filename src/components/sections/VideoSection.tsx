@@ -11,7 +11,7 @@ interface VideoSectionProps {
 
 const VideoSection: React.FC<VideoSectionProps> = ({
   videoThumbnail = '/images/img_group_176.png',
-  videoUrl = 'https://www.youtube.com/embed/dQw4w9WgXcQ' // Replace with actual video URL
+  videoUrl = 'https://www.youtube.com/watch?v=psnDFw7_nKo' 
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 

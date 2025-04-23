@@ -163,17 +163,12 @@ const InteroperabilitySection: React.FC<InteroperabilitySectionProps> = ({
                       animate={lineControls}
                       custom={index}
                       transition={{
-                        strokeDashoffset: {
-                          repeat: settings.animation_enabled ? Infinity : 0,
-                          repeatType: "loop",
-                          duration: 12,
-                          ease: "linear"
-                        },
                         delay: 0.2 + (index * 0.1)
                       }}
-                      {...(settings.animation_enabled && {
-                        strokeDashoffset: [0, -20]
-                      })}
+                      style={{
+                        // Fix: Properly type the animation for strokeDashoffset
+                        strokeDashoffset: settings.animation_enabled ? "-20" : "0"
+                      }}
                     />
                   );
                 })}

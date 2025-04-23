@@ -57,7 +57,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   }
 
   return (
-    <section className="relative overflow-hidden bg-blue-50 min-h-[1vh]">
+    <section className="relative overflow-hidden bg-blue-50 min-h-[100vh]">
       {/* Wave background */}
       <div className="absolute inset-0 z-0">
         <Image

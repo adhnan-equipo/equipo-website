@@ -4,7 +4,6 @@ import HeroSection from '@/components/sections/HeroSection';
 import OfferingsSection from '@/components/sections/OfferingsSection';
 import ReasonsSection from '@/components/sections/ReasonsSection';
 import InteroperabilitySection from '@/components/sections/InteroperabilitySection';
-import TechStackSection from '@/components/sections/TechStackSection';
 import EfficiencySection from '@/components/sections/EfficiencySection';
 import VideoSection from '@/components/sections/VideoSection';
 import Header from '@/components/layout/Header';
@@ -191,21 +190,22 @@ export default async function Home() {
             settings={interoperabilitySettings}
           />
           
-          <TechStackSection
-            categories={techCategories}
-            technologies={technologies}
-          />
+ 
           
-          {/* Video Section */}
-          <VideoSection 
-            videoThumbnail="/images/img_group_176.png"
-            videoUrl="https://www.youtube.com/embed/dQw4w9WgXcQ"
-          />
-          
+
           <EfficiencySection
             heading={efficiencyHeading}
             blocks={efficiencyBlocks}
           />
+
+          {/* Video Section */}
+          <VideoSection 
+            videoThumbnail="/images/img_group_176.png"
+            videoUrl="https://www.youtube.com/embed/psnDFw7_nKo?si=_t1E2D2Fd3mX7Obb"
+          />
+          
+
+
         </main>
         
         {/* Footer */}
